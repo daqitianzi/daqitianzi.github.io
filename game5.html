@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>森林奇遇记</title>
+<style>
+  body { font-family: "Microsoft YaHei", sans-serif; max-width: 520px; margin: 40px auto; padding: 0 16px; }
+  h2 { text-align: center; margin-bottom: 12px; }
+  #story { background: #2e7d32; color: #000; border-radius: 12px; padding: 16px; min-height: 120px; font-size: 15px; line-height: 1.7; white-space: pre-line; }
+  #choices { margin-top: 14px; display: flex; gap: 10px; flex-wrap: wrap; }
+  #choices button { padding: 10px 18px; border: 1px solid #1b5e20; border-radius: 8px; background: #e8f5e9; color: #000; cursor: pointer; font-size: 15px; flex: 1; }
+  #inputArea { margin-top: 14px; display: none; }
+  #nameInput { flex: 1; padding: 10px 12px; border: 1px solid #333; border-radius: 8px; font-size: 15px; width: 70%; }
+  #inputArea button, #restart button { padding: 10px 16px; border: none; border-radius: 8px; background: #1b5e20; color: #fff; cursor: pointer; font-size: 15px; }
+  #restart { margin-top: 14px; text-align: center; display: none; }
+</style>
+</head>
+<body>
+  <h2>🌲 森林奇遇记 🌲</h2>
+  <div id="story"></div>
+  <div id="choices"></div>
+  <div id="inputArea">
+    <input id="nameInput" placeholder="请输入名字…">
+    <button onclick="submitName()">确定</button>
+  </div>
+  <div id="restart">
+    <button onclick="startGame()">🔁 重新开始</button>
+  </div>
+
+<script>
+function startGame(){
+  document.getElementById('restart').style.display='none';
+  document.getElementById('inputArea').style.display='none';
+  document.getElementById('story').textContent = "你独自一人在森林里，四周静悄悄的……\n\nA. 四处看看\nB. 原地不动";
+  const c = document.getElementById('choices');
+  c.innerHTML = '';
+  [['A','四处看看'],['B','原地不动']].forEach(([k,t])=>{
+    const b=document.createElement('button');
+    b.textContent = k + '. ' + t;
+    b.onclick=()=>choose(k);
+    c.appendChild(b);
+  });
+}
+function choose(k){
+  document.getElementById('choices').innerHTML='';
+  const s=document.getElementById('story');
+  s.textContent = k==='A'
+    ? "你四处逛了逛，忽然发现了一只落单的小狗，正可怜巴巴地看着你。\n\n请给小狗起个名字："
+    : "你站在原地不动，突然有一只小狗朝你跑了过来，冲你摇尾巴。\n\n请给小狗起个名字：";
+  document.getElementById('inputArea').style.display='flex';
+  document.getElementById('nameInput').value='';
+  document.getElementById('nameInput').focus();
+}
+function submitName(){
+  const v=document.getElementById('nameInput').value.trim();
+  const s=document.getElementById('story');
+  if(v==='李佳慧'){
+    document.getElementById('inputArea').style.display='none';
+    s.textContent = "🎉 游戏结束，你真棒！🎉";
+    document.getElementById('restart').style.display='block';
+  } else {
+    s.textContent += "\n\n狗狗对着「"+v+"」这个名字不满地汪汪叫了几声，让你重新起……\n\n请给小狗起个名字：";
+    document.getElementById('nameInput').value='';
+    document.getElementById('nameInput').focus();
+  }
+}
+document.getElementById('nameInput').addEventListener('keydown',e=>{if(e.key==='Enter')submitName();});
+startGame();
+</script>
+</body>
+</html>

@@ -825,7 +825,7 @@
         if (window.self !== window.top) document.body.style.backgroundColor = 'transparent';
 
         document.addEventListener('DOMContentLoaded', () => {
-
+            if ("audioSession" in navigator){navigator.audioSession.type="playback";}
             const playerConfig = {
                 githubUsername: 'Pekly',
                 promotionEnabled: true,

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>生日快乐</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-family: "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background:
+        radial-gradient(ellipse at 50% 85%, #50276f 0%, transparent 48%),
+        radial-gradient(ellipse at 20% 20%, #193363 0%, transparent 42%),
+        linear-gradient(145deg, #090b22, #180e32 55%, #101b3a);
+    }
+
+    .glow {
+      position: fixed;
+      inset: -50%;
+      pointer-events: none;
+      opacity: .48;
+      background: conic-gradient(
+        from 0deg at 50% 50%,
+        transparent 0 25%,
+        #ff49c622 31%,
+        #6fffe922 35%,
+        transparent 42% 60%,
+        #9b70ff22 68%,
+        transparent 76%
+      );
+      filter: blur(35px);
+      animation: rotate 18s linear infinite;
+    }
+
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    .scene {
+      position: relative;
+      z-index: 1;
+      width: min(94vw, 680px);
+      min-height: 620px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: clamp(2.5rem, 9vw, 5rem);
+      letter-spacing: .12em;
+      background: linear-gradient(90deg, #ff77c8, #ffe783, #74fff0, #b995ff, #ff77c8);
+      background-size: 300% auto;
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      filter: drop-shadow(0 0 18px #f865db88);
+      animation: rainbow 5s linear infinite, float 3s ease-in-out infinite;
+    }
+
+    @keyframes rainbow { to { background-position: 300% center; } }
+    @keyframes float { 50% { transform: translateY(-8px); } }
+
+    .subtitle {
+      margin: 0 0 30px;
+      color: #e8dfff;
+      font-size: clamp(1rem, 3vw, 1.25rem);
+      letter-spacing: .25em;
+      text-shadow: 0 0 12px #d782ff;
+    }
+
+    .cake-area {
+      position: relative;
+      width: 310px;
+      height: 330px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      filter: drop-shadow(0 18px 22px #0008);
+    }
+
+    .cake {
+      position: relative;
+      width: 270px;
+      height: 210px;
+    }
+
+    .tier {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 16px 16px 22px 22px;
+      box-shadow: inset 0 -12px 0 #0002, inset 0 7px 10px #ffffff55;
+    }
+
+    .tier-bottom {
+      bottom: 0;
+      width: 270px;
+      height: 83px;
+      background: linear-gradient(100deg, #ff5f9e, #ff9a67 45%, #ffd45e);
+    }
+
+    .tier-middle {
+      bottom: 72px;
+      width: 218px;
+      height: 76px;
+      background: linear-gradient(100deg, #9d68ff, #e46bdb 55%, #ff8bb5);
+    }
+
+    .tier-top {
+      bottom: 138px;
+      width: 164px;
+      height: 67px;
+      background: linear-gradient(100deg, #36d8d1, #69a6ff 55%, #a67aff);
+    }
+
+    .icing {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 20px;
+      border-radius: 16px 16px 50% 50%;
+      background: #fff1ff;
+      box-shadow: 0 3px 8px #fff8;
+    }
+
+    .icing::after {
+      content: "";
+      position: absolute;
+      left: 15%;
+      top: 10px;
+      width: 13px;
+      height: 21px;
+      border-radius: 0 0 10px 10px;
+      background: inherit;
+      box-shadow: 53px 3px 0 -1px #fff1ff, 112px -1px 0 1px #fff1ff;
+    }
+
+    .sprinkles {
+      position: absolute;
+      inset: 30px 16px 12px;
+      background-image:
+        radial-gradient(ellipse, #fff 2px, transparent 3px),
+        radial-gradient(ellipse, #fff876 2px, transparent 3px),
+        radial-gradient(ellipse, #8affef 2px, transparent 3px),
+        radial-gradient(ellipse, #ffdcf4 2px, transparent 3px);
+      background-size: 38px 28px, 44px 35px, 51px 31px, 60px 40px;
+      background-position: 0 0, 12px 9px, 24px 2px, 7px 17px;
+      opacity: .95;
+    }
+
+    .candle {
+      position: absolute;
+      z-index: 2;
+      bottom: 197px;
+      left: 50%;
+      width: 15px;
+      height: 67px;
+      transform: translateX(-50%);
+      border-radius: 5px;
+      background: repeating-linear-gradient(
+        135deg, #fff 0 8px, #ff71ba 8px 16px
+      );
+      box-shadow: 0 0 12px #ff8edb88;
+    }
+
+    .flame {
+      position: absolute;
+      left: 50%;
+      top: -34px;
+      width: 21px;
+      height: 31px;
+      transform: translateX(-50%);
+      border-radius: 55% 45% 55% 45%;
+      background: radial-gradient(ellipse at 50% 70%, #fff9a6 0 18%, #ffb638 40%, #ff5b26 75%);
+      box-shadow: 0 0 18px 8px #ff9c3d88, 0 0 42px #ffdf6b66;
+      animation: flicker .16s ease-in-out infinite alternate;
+      transform-origin: bottom center;
+    }
+
+    @keyframes flicker {
+      to { transform: translateX(-50%) rotate(5deg) scale(.9, 1.08); }
+    }
+
+    .plate {
+      position: absolute;
+      bottom: -13px;
+      left: 50%;
+      width: 310px;
+      height: 24px;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: linear-gradient(#fff5ff, #9e8fc9);
+      box-shadow: 0 8px 24px #c797ff55;
+    }
+
+    .message {
+      margin: 35px 0 0;
+      color: #fff2cc;
+      font-size: 1.1rem;
+      letter-spacing: .12em;
+      text-shadow: 0 0 14px #ffb5ea;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      50% { opacity: .7; text-shadow: 0 0 24px #ffb5ea; }
+    }
+
+    .sparkles {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    @media (max-height: 700px) {
+      .scene { transform: scale(.82); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <canvas class="sparkles" id="sparkles"></canvas>
+
+  <main class="scene">
+    <h1>生日快乐</h1>
+    <p class="subtitle">愿所有美好如期而至</p>
+
+    <div class="cake-area" aria-label="一只插着蜡烛的彩色生日蛋糕">
+      <div class="cake">
+        <div class="candle"><div class="flame"></div></div>
+        <div class="tier tier-top"><div class="icing"></div><div class="sprinkles"></div></div>
+        <div class="tier tier-middle"><div class="icing"></div><div class="sprinkles"></div></div>
+        <div class="tier tier-bottom"><div class="icing"></div><div class="sprinkles"></div></div>
+        <div class="plate"></div>
+      </div>
+    </div>
+
+    <p class="message">新的一岁，继续闪闪发光 ✨</p>
+  </main>
+
+  <script>
+    const canvas = document.getElementById("sparkles");
+    const ctx = canvas.getContext("2d");
+    const colors = ["#ff75c3", "#ffe77a", "#70fff0", "#a68aff", "#ffffff"];
+    let particles = [];
+    let width, height;
+
+    function resize() {
+      const ratio = window.devicePixelRatio || 1;
+      width = canvas.width = window.innerWidth * ratio;
+      height = canvas.height = window.innerHeight * ratio;
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      particles = Array.from({ length: 100 }, () => createParticle(true));
+    }
+
+    function createParticle(randomY = false) {
+      return {
+        x: Math.random() * window.innerWidth,
+        y: randomY ? Math.random() * window.innerHeight : window.innerHeight + 10,
+        size: Math.random() * 3 + 1,
+        speed: Math.random() * 1.3 + .35,
+        drift: (Math.random() - .5) * .8,
+        alpha: Math.random() * .65 + .25,
+        color: colors[Math.floor(Math.random() * colors.length)]
+      };
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.y -= p.speed;
+        p.x += Math.sin(p.y * .012) * p.drift;
+        p.alpha += (Math.random() - .5) * .04;
+
+        ctx.globalAlpha = Math.max(.15, Math.min(1, p.alpha));
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (p.y < -10) particles[i] = createParticle();
+      }
+
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+    animate();
+  </script>
+</body>
+</html>
